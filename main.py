@@ -1,21 +1,48 @@
-class Rooms:
-    def __init__(self, room_type, price, description, number_of_rooms):
-        self.room_type = room_type
-        self.price = price
-        self.description = description
-        self.number_of_rooms = number_of_rooms
+"""
+TO DO LIST:
+- place orders (customer class)
+- separate class for processing orders
+- interaction class (as much as possible, separate classes for customers and admin)
+"""
+
+class MenuList:
+    def __init__(self, item, price):
+        self.__item = item
+        self.__price = price
+        
+    def get_item(self):
+        return self.__item
+        
+    def get_price(self):
+        return self.__price
         
     def __str__(self):
-        return f"{self.room_type} for P{self.price} per night - {self.description}."
+        return f"{self.__item}: ${self.__price}"
+
+class User:
+    def __init__(self, name):
+        self.__name = name
         
-class StandardRoom(Rooms):
-    def __init__(self):
-        super().__init__('Standard Room', 1934, 'These 20 square meter Queen bedded rooms are styled in a contemporary design with tasteful furnishings. Comfortable bathroom with toiletries, smart TV, air purifier, air conditioning, work desk, safety box and complimentary Wi-Fi', 10)
-        
-class DeluxeRoom(Rooms):
-    def __init__(self):
-        super().__init__('Deluxe Room', 2729, 'These 22 square meter spacious rooms with balcony are available with two Single beds and a sofa bed. Comfortable bathroom with toiletries, smart TV, air purifier, air conditioning, work desk, mini chiller, safety box and complimentary Wi-Fi', 10)
-        
-class ExecutiveRoom(Rooms):
-    def __init__(self):
-        super().__init__('Executive Room', 5557, 'This room features a loft type of bedroom which comes with 3 Queen size beds and a sofa bed caters to families or a group of friends. These 18 square meter room with a maximum capacity of 7 guests come equipped with bathroom amenities, eco-friendly rain shower, smart TV , kitchenette with a refrigerator, dining table, wooden sofa, ceiling fan,  air purifier, air conditioning, work desk, safety box and complimentary Wi-Fi', 10)
+class Customer(User):
+    def display_menu(self):
+        for i in range(len(menu)):
+            print(f"[{i}]: {menu[i]}")
+            
+    def place_order(self):
+        pass
+            
+class Admin(User):
+    def add_item(self):
+        item = str(input("Enter the name of the item: "))
+        while True:
+            try:
+                price = float(input("Enter the price of the item: "))
+                break
+            except Exception: print()
+        menu.append(MenuList(item, price))
+    
+menu = [
+    MenuList('Fries', 9.99),
+    MenuList('Burger',19.99),
+    MenuList('Fried Chicken', 29.99)
+    ]
