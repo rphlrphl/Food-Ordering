@@ -23,7 +23,6 @@ class Menu:
     def _add_food(cls, ids, item, price):
         cls.__food_list[ids] = {'item': item, 'price': price}
 
-
 class User:
     def __init__(self, name):
         self.__name = name
@@ -32,28 +31,52 @@ class User:
         return self.__name
         
 class Customer(User):
-    def place_order(self):
+    def place_order(self): # FIX THIS LATER !!
+        print("----- PLACE ORDER [customer] -----")
         print('Enter the item id to order ([#] --> ID)')
         Menu.display_menu()
+        food_order_ids = []
+        print("Press 0 to cancel.")
+        while True:
+            try:
+                orders = int(input("Enter food id: "))
+                if orders > len(Menu.get_food_list()):
+                    raise ValueError("ID not available.")
+                    print('ID Not Available')
+                elif orders == 0: break
+                else: food_order_ids.append(orders)
+            except Exception:
+                print('')
         return
     
 class Admin(User):
     def add_food(self):
-        food_id  = len(Menu.get_food_list())+1
-        item = str(input("Enter food name: "))
         while True:
-            try:
-                price = float(input("Enter food price: "))
+            print("----- ADD FOOD [admin] -----")
+            print("Enter blank character to cancel.")
+            food_id  = len(Menu.get_food_list())+1
+            item = str(input("Enter food name: "))
+            if not item:
+                print("No item added.")
                 break
-            except Exception:
-                continue
-        Menu._add_food(food_id, item, price)
+            while True:
+                try:
+                    price = float(input("Enter food price: "))
+                    break
+                except Exception:
+                    continue
+            if not food_id or not item or not price:
+                print("No item added.")
+            else:
+                Menu._add_food(food_id, item, price)
+                break
+        return
         
 # class OrderProcessor: # to be updated
 #     def process_order
         
-Admin('test').add_food()
-Menu.display_menu()
+# Admin('test').add_food()
+# Menu.display_menu()
 
 Customer('test').place_order()    
         
