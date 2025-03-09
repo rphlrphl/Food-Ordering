@@ -9,6 +9,15 @@ class Menu:
     @classmethod
     def get_food_list(cls):
         return cls.__food_list.copy()
+    
+    @classmethod   
+    def display_menu(cls):
+        if not cls.__food_list:
+            print("No items available.")
+            return
+        print("Menu:")
+        for ids, details in cls.__food_list.items():
+            print(f"[{ids}]: {details['item']}, P{details['price']}")
         
     @classmethod
     def _add_food(cls, ids, item, price):
@@ -37,6 +46,9 @@ class Admin(User):
             except Exception:
                 continue
         Menu._add_food(food_id, item, price)
+        
+Admin('test').add_food()
+Menu.display_menu()
     
         
 
