@@ -139,6 +139,37 @@ class PaymentProcessor:
             except Exception:
                 print("Invalid input. Please enter a valid number.")
                 continue
+            exit()
+
+class UserRole:
+    def __init__(self, name, role_selection):
+        self.name = name
+        self.role_selection = role_selection
+    
+    def start(self):
+        raise NotImplementedError("Subclasses must implement start method")
+
+class CustomerRole(UserRole):
+    def start(self):
+        payment_processor = PaymentProcessor(self.role_selection)
+        order_processor = OrderProcessor(payment_processor)
+        order_manager = OrderManager(order_processor, self.role_selection)
+        customer = Customer(self.name, order_manager)
+        customer.start_order()
+
+class AdminRole(UserRole):
+    def start(self):
+        password = 'admin1234'
+        while True:
+            input_password = input("Enter password (Enter [0] to cancel): ")
+            if input_password == '0':
+                RoleSelection().input_name()
+            elif input_password != password:
+                print("Invalid password.")
+            else:
+                admin = Admin(self.name, self.role_selection)
+                admin.add_item()
+                break
 
 class RoleSelection:
     def input_name(self):
@@ -156,27 +187,15 @@ class RoleSelection:
             try:
                 role = int(input("Enter [1] for Customer, [2] for Admin: "))
                 if role == 1:
-                    payment_processor = PaymentProcessor(self)
-                    order_processor = OrderProcessor(payment_processor)  
-                    order_manager = OrderManager(order_processor, self)
-                    customer = Customer(name, order_manager)  
-                    customer.start_order()
-                    break
+                    user_role = CustomerRole(name, self)
                 elif role == 2:
-                    password = 'admin1234'
-                    input_password = input("Enter password (Enter [0] to cancel): ")
-                    if input_password != password:
-                        print("Invalid password.")
-                        continue
-                    elif input_password == '0':
-                        continue
-                    else:
-                        # payment_processor = PaymentProcessor(self)
-                        admin = Admin(name, self)  
-                        admin.add_item()
-                        break
+                    user_role = AdminRole(name, self)
                 else:
                     print("Invalid selection. Try again.")
+                    continue
+                
+                user_role.start()
+                break
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
