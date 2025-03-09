@@ -1,5 +1,5 @@
 class Menu:
-    __food_list = {}
+    __food_list = {1:{'item':'Adobo','price':65},2:{'item':'Caldereta','price':65}}
     
     def __init__(self, ids, item, price):
         self.__ids = ids
@@ -31,7 +31,7 @@ class User:
         return self.__name
         
 class Customer(User):
-    def place_order(self): # FIX THIS LATER !!
+    def place_order(self):
         print("----- PLACE ORDER [customer] -----")
         print('Enter the item id to order ([#] --> ID)')
         Menu.display_menu()
@@ -40,11 +40,15 @@ class Customer(User):
         while True:
             try:
                 orders = int(input("Enter food id: "))
-                if orders > len(Menu.get_food_list()):
-                    raise ValueError("ID not available.")
+                if orders > len(Menu.get_food_list()) or orders < 0:
                     print('ID Not Available')
-                elif orders == 0: break
-                else: food_order_ids.append(orders)
+                elif orders == 0:
+                    print('Order Cancelled')
+                    break
+                else: 
+                    food_order_ids.append(orders)
+                    print('') # ADD KO MAYA
+                    
             except Exception:
                 print('')
         return
@@ -79,10 +83,3 @@ class Admin(User):
 # Menu.display_menu()
 
 Customer('test').place_order()    
-        
-
-    
-        
-
-
-        
