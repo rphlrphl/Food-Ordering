@@ -10,15 +10,17 @@ class Menu:
     __food_list = {}
     
     def __init__(self, ids, item, price):
-        self.ids = ids
-        self.item = item
-        self.price = price
+        self.__ids = ids
+        self.__item = item
+        self.__price = price
         
-    def get_food_list(self):
-        return Menu.__food_list.copy()
+    @classmethod
+    def get_food_list(cls):
+        return cls.__food_list.copy()
         
-    def add_food(self):
-        Menu.__food_list[self.ids] = {'item': self.item, 'price': self.price}
+    @classmethod
+    def _add_food(cls, ids, item, price):
+        cls.__food_list[ids] = {'item': item, 'price': price}
 
 
 class User:
@@ -34,6 +36,4 @@ class Customer(User):
     
 class Admin(User):
     def add_food(self, ids, item, price):
-        new_food = Menu(ids, item, price)
-        new_food.add_food()
-        
+        Menu._add_food(ids, item, price)
