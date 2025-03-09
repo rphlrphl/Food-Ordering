@@ -11,7 +11,7 @@ class Menu:
         return cls.__food_list.copy()
     
     @classmethod   
-    def display_menu(cls):
+    def display_menu(cls): # This function will print out the available foods.
         if not cls.__food_list:
             print("No items available.")
             return
@@ -33,7 +33,9 @@ class User:
         
 class Customer(User):
     def place_order(self):
-        pass
+        print('Enter the item id to order ([#] --> ID)')
+        Menu.display_menu()
+        return
     
 class Admin(User):
     def add_food(self):
@@ -47,9 +49,13 @@ class Admin(User):
                 continue
         Menu._add_food(food_id, item, price)
         
+# class OrderProcessor: # to be updated
+#     def process_order
+        
 Admin('test').add_food()
 Menu.display_menu()
-    
+
+Customer('test').place_order()    
         
 
     
