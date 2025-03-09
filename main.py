@@ -1,11 +1,3 @@
-"""
-TO DO LIST:
-- place orders (customer class)
-- separate class for processing orders
-- interaction class (as much as possible, separate classes for customers and admin)
-- fix encapsulation
-"""
-
 class Menu:
     __food_list = {}
     
@@ -35,5 +27,21 @@ class Customer(User):
         pass
     
 class Admin(User):
-    def add_food(self, ids, item, price):
-        Menu._add_food(ids, item, price)
+    def add_food(self):
+        food_id  = len(Menu.get_food_list())+1
+        item = str(input("Enter food name: "))
+        while True:
+            try:
+                price = float(input("Enter food price: "))
+                break
+            except Exception:
+                continue
+        Menu._add_food(food_id, item, price)
+    
+        
+
+    
+        
+
+
+        
